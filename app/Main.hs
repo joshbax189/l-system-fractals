@@ -2,6 +2,7 @@ module Main where
 
 import Draw
 import LSystem
+import Turtle
 
 cantor :: Sys TurtleAction
 cantor =
@@ -44,5 +45,3 @@ main = do
   let n = 5
       diag = last $ take n $ iterate (apply sier) sierStart
   print $ toSVG diag
-      
-  
