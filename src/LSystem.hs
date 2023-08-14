@@ -9,9 +9,9 @@ type Axiom a = [a]
 -- |Rules are context-free, replacing a single letter with a string.
 data Rule a = Rule {
   -- |The letter to replace.
-  tgt :: a
+  target :: a
   -- |The string to replace it with.
-  , res :: [a]
+  , replacement :: [a]
   }
 
 -- |The collection of rules in the system. Assumes the axiom is given
@@ -34,4 +34,4 @@ apply :: (Eq a) => Sys a -> Axiom a -> [a]
 apply sys axiom = foldMap (applyAnyRule) axiom
   -- TODO the following is a bit obscure
   -- TODO this only works for deterministic systems, but this is not enforced
-  where applyAnyRule c = fromMaybe [c] $ res <$> List.find ((c==) . tgt) sys
+  where applyAnyRule c = fromMaybe [c] $ replacement <$> List.find ((c==) . target) sys
