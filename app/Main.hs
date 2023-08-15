@@ -53,10 +53,9 @@ sierpinsky =
 
 main :: IO ()
 main = do
-  let n = 10
-      -- diag = last $ take n $ iterate (apply cantor) [Draw 5.0]
-      -- diag = last $ take n $ iterate (apply sierpinsky)
+  let n = 5
       diag = runSteps n sierpinsky
-  -- -- TODO take user input
-  -- writeFile "sier.svg" (show $ toSVG (SVGConfig 150 10) diag)
-  writeFile "koch.svg" (show $ toSVG (SVGConfig 150 10) diag)
+      config = SVGConfig { svgAttributes = [Width_ <<- "3000", Height_ <<- "2000"]
+                         , groupAttributes = [Transform_ <<- "translate(100,100)"] }
+  -- TODO take user input
+  writeFile "koch.svg" (show $ toSVG config diag)

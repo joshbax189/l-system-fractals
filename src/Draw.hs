@@ -4,20 +4,21 @@ module Draw where
 
 import Graphics.Svg
 import Control.Monad.State
--- import Control.Monad.Identity
--- import Data.List.NonEmpty (NonEmpty(..))
 import Data.Maybe (catMaybes)
-
--- import Data.Text.Lazy (Text)
 import qualified Data.Text as Text
 
 import Turtle
 
+
+data SVGConfig = SVGConfig { svgAttributes :: [Attribute]
+                           , groupAttributes :: [Attribute]
+                           }
+
 -- |Wrap an SVG drawing in the necessary boilerplate.
-svg :: Element -> Element
-svg content =
+svg :: SVGConfig -> Element -> Element
+svg config content =
      doctype
-  <> with (svg11_ content) [Version_ <<- "1.1", Width_ <<- "3000", Height_ <<- "2000"]
+  <> with (svg11_ content) ([Version_ <<- "1.1"] ++ (svgAttributes config))
 
 -- Unused example
 
@@ -30,8 +31,11 @@ svg content =
 
 -- |Convert an action string to an SVG.
 -- This renders the Turtle's path.
-toSVG :: [TurtleAction] -> Element
-toSVG actions = svg $ g_ [Transform_ <<- "translate(100,100)"] $ mconcat $ convert actions
+toSVG :: SVGConfig -> [TurtleAction] -> Element
+toSVG config actions = svg config
+                       $ g_ (groupAttributes config)
+                       $ mconcat
+                       $ convert actions
 
 showText :: Show a => a -> Text.Text
 showText = Text.pack . show
@@ -55,5 +59,4 @@ action (Turn n) = do
   return Nothing
 
 convert :: [TurtleAction] -> [Element]
--- convert st = catMaybes $ fst $ runState (mapM action st) (TurtleLoc 0 0 0)
 convert = catMaybes . fst . runTurtle action

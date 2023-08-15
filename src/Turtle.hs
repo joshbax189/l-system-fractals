@@ -35,7 +35,7 @@ type TurtleState a = State TurtleLoc a
 
 -- |Given an interpretation of a 'TurtleAction' producing a 'b', allow
 -- converting a sequence of actions to 'b's by assuming the cursor starts at
--- 0,0,0.
+-- `{ coordX=0, coordY=0, angle=0 }`.
 runTurtle :: (TurtleAction -> TurtleState b)
              -- ^The interpretation function
              -> [TurtleAction]
