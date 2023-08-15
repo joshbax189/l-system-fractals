@@ -7,16 +7,15 @@ import Data.Maybe (fromMaybe)
 type Axiom a = [a]
 
 -- |Rules are context-free, replacing a single letter with a string.
-data Rule a = Rule {
-  -- |The letter to replace.
-  target :: a
-  -- |The string to replace it with.
-  , replacement :: [a]
-  }
+data Rule a = Rule { target :: a
+                   -- ^The letter to replace.
+                   , replacement :: [a]
+                   -- ^The string to replace it with.
+                   }
 
--- |The collection of rules in the system. Assumes the axiom is given
--- separately. See 'apply'.
-type Sys a = [Rule a]
+data LSystem a = LSystem { rules :: [Rule a]
+                         , axiom :: Axiom a
+                         }
 
 -- TODO unused
 -- An alternative definition of 'apply' is
@@ -28,10 +27,12 @@ ruleApply (Rule c s) c'
 
 -- |Apply all rules in a system to an axiom.
 -- Assumes system is deterministic and context-free.
---
--- > take 3 $ iterate (apply cantor) "A"
-apply :: (Eq a) => Sys a -> Axiom a -> [a]
-apply sys axiom = foldMap (applyAnyRule) axiom
+apply :: (Eq a) => [Rule a] -> Axiom a -> [a]
+apply sys ax = foldMap (applyAnyRule) ax
   -- TODO the following is a bit obscure
   -- TODO this only works for deterministic systems, but this is not enforced
   where applyAnyRule c = fromMaybe [c] $ replacement <$> List.find ((c==) . target) sys
+
+-- |Run the L-System for 'n' steps.
+runSteps :: Eq a => Int -> LSystem a -> [a]
+runSteps n sys = last $ take n $ iterate (apply $ rules sys) (axiom sys)

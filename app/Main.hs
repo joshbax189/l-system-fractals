@@ -4,44 +4,59 @@ import Draw
 import LSystem
 import Turtle
 
-cantor :: Sys TurtleAction
+-- Iteratively produce the Cantor set.
+-- I.e. the kth iteration is the result of removing the middle third of each line
+-- in the k-1th iteration.
+cantor :: LSystem TurtleAction
 cantor =
   let a = Draw 5.0
       b = Move 5.0
-  in [
+  in LSystem [
     Rule a [a,b,a]
     , Rule b [b, b, b]
   ]
+  [a]
 
-koch :: Sys TurtleAction
-koch =
+-- the quadratic type-1 curve
+quad :: LSystem TurtleAction
+quad =
   let f = Draw 10.0
       min = Turn (pi/2)
       pl = Turn (-pi/2)
-  in [
+  in LSystem [
     Rule f [f, pl, f, min, f, min, f, pl, f]
      ]
+     [f]
 
-sier :: Sys TurtleAction
-sier =
+-- Actual koch snowflake
+kochSnowflake :: LSystem TurtleAction
+kochSnowflake =
+  let f = Draw 10.0
+      o = Turn (-pi/3)
+      t = Turn (2 * pi/3)
+  in LSystem [
+    Rule f [f, o, f, t, f, o, f]
+    ]
+  [f, t, f, t, f]
+
+sierpinsky :: LSystem TurtleAction
+sierpinsky =
   let f = Draw 10.0
       g = Draw 10.0
       pl = Turn (2 * pi / 3)
       min = Turn (-2 * pi /3)
-  in [
+  in LSystem [
     Rule f [f, min, g, pl, g, pl, g, min, f]
     , Rule g [g,g]
     ]
-
-sierStart :: [TurtleAction]
-sierStart =
-  let f = Draw 10.0
-      g = Draw 10.0
-      min = Turn (-2 * pi /3)
-  in [f, min, g, min, g]
+  [f, min, g, min, g]
 
 main :: IO ()
 main = do
-  let n = 5
-      diag = last $ take n $ iterate (apply sier) sierStart
-  print $ toSVG diag
+  let n = 10
+      -- diag = last $ take n $ iterate (apply cantor) [Draw 5.0]
+      -- diag = last $ take n $ iterate (apply sierpinsky)
+      diag = runSteps n sierpinsky
+  -- -- TODO take user input
+  -- writeFile "sier.svg" (show $ toSVG (SVGConfig 150 10) diag)
+  writeFile "koch.svg" (show $ toSVG (SVGConfig 150 10) diag)
