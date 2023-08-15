@@ -17,14 +17,6 @@ data LSystem a = LSystem { rules :: [Rule a]
                          , axiom :: Axiom a
                          }
 
--- TODO unused
--- An alternative definition of 'apply' is
--- apply sys axiom = foldl (\acc r -> foldMap (ruleApply r) acc) axiom sys
-ruleApply :: (Eq a) => Rule a -> a -> [a]
-ruleApply (Rule c s) c'
-  | c == c' = s
-  | otherwise = [c']
-
 -- |Apply all rules in a system to an axiom.
 -- Assumes system is deterministic and context-free.
 apply :: (Eq a) => [Rule a] -> Axiom a -> [a]
