@@ -1,6 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Draw where
+module Draw ( SVGConfig(..)
+            , toSVG
+            ) where
 
 import Graphics.Svg
 import Control.Monad.State
@@ -8,7 +10,6 @@ import Data.Maybe (catMaybes)
 import qualified Data.Text as Text
 
 import Turtle
-
 
 data SVGConfig = SVGConfig { svgAttributes :: [Attribute]
                            , groupAttributes :: [Attribute]

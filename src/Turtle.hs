@@ -1,4 +1,10 @@
-module Turtle where
+module Turtle ( TurtleAction(..)
+              , TurtleLoc(..)
+              , TurtleState
+              , moveStraight
+              , turnClockwise
+              , runTurtle
+              ) where
 
 import Control.Monad.State
 

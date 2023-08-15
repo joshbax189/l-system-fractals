@@ -1,4 +1,8 @@
-module LSystem where
+module LSystem ( Axiom
+               , Rule(..)
+               , LSystem(..)
+               , runSteps
+               ) where
 
 import qualified Data.List as List
 import Data.Maybe (fromMaybe)
