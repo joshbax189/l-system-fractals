@@ -51,8 +51,8 @@ main = runCommand $ \opts _ -> do
       sysName = optName opts
       sys = toSystem sysName
       filename = optFile opts
-      config = SVGConfig { svgAttributes = [Width_ <<- "3000", Height_ <<- "2000"]
-                         , groupAttributes = [Transform_ <<- "translate(100,100)"] }
+      config = SVGConfig { svgAttributes = [Width_ <<- "300", Height_ <<- "300"]
+                         , groupAttributes = [Transform_ <<- "translate(50,10)"] }
 
   putStrLn $ "Running " ++ (show sysName) ++ " for " ++ (show n) ++ " steps"
 

@@ -49,3 +49,23 @@ stack run -- --name=""
 
 Note that the output size will usually grow exponentially with the number of iterations, e.g. Koch snowflake with n=10 will produce an SVG of about 100MB.
 I have not really tried to optimize performance.
+
+## Examples
+
+### Koch Snowflake
+
+![Koch 1](examples/koch1.svg "Koch 1")
+![Koch 2](examples/koch2.svg "Koch 2")
+![Koch 3](examples/koch3.svg "Koch 3")
+
+### Quad Curve
+
+![Quad 2](examples/quad2.svg "Quad 2")
+![Quad 3](examples/quad3.svg "Quad 3")
+![Quad 4](examples/quad4.svg "Quad 4")
+
+### Sierpinsky Triangle
+
+![Sier 3](examples/sier3.svg "Sier 3")
+![Sier 4](examples/sier4.svg "Sier 4")
+![Sier 5](examples/sier5.svg "Sier 5")
